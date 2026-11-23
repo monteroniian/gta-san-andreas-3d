@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grand Theft Auto: San Andreas — 3D Los Santos Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Pirata+One&family=Rajdhani:wght@600;700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- WebGL 3D Viewport -->
+  <div id="game-container"></div>
+
+  <!-- PS2 Orange Sunset / Warmth Filter Overlay -->
+  <div id="ps2-filter" class="ps2-warmth"></div>
+
+  <!-- Damage / Low Health Vignette -->
+  <div id="damage-flash"></div>
+
+  <!-- ================= TITLE / LOADING SCREEN ================= -->
+  <div id="title-screen">
+    <div class="title-bg-grid">
+      <div class="art-panel panel-1">
+        <div class="panel-art grove-art"></div>
+        <span class="panel-tag">GROVE STREET 4 LIFE</span>
+      </div>
+      <div class="art-panel panel-2">
+        <div class="panel-art lowrider-art"></div>
+        <span class="panel-tag">LOS SANTOS 1992</span>
+      </div>
+      <div class="art-panel panel-3">
+        <div class="panel-art cj-art"></div>
+        <span class="panel-tag">CARL "CJ" JOHNSON</span>
+      </div>
+    </div>
+
+    <div class="title-center-box">
+      <div class="gta-logo-box">
+        <div class="gta-logo-top">grand theft auto</div>
+        <div class="gta-logo-sa">San Andreas</div>
+        <div class="gta-logo-sub">LOS SANTOS 3D OPEN WORLD EDITION</div>
+      </div>
+
+      <div class="title-menu">
+        <button id="btn-start-game" class="sa-menu-btn active">INICIAR PARTIDA (START GAME)</button>
+        <button id="btn-open-controls" class="sa-menu-btn">CONTROLES Y TRUCOS (CHEATS)</button>
+        <button id="btn-toggle-ps2" class="sa-menu-btn">FILTRO PS2 NARANJA: ACTIVADO</button>
+      </div>
+
+      <div class="title-footer-hint">
+        <span>Escribe trucos en el teclado como <b>HESOYAM</b>, <b>ROCKETMAN</b>, <b>AIWPRTON</b>, <b>BAGUVIX</b>, <b>UZUMYMW</b>, <b>AEZAKMI</b></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= IN-GAME GTA SAN ANDREAS HUD ================= -->
+  <div id="hud" class="hidden">
+
+    <!-- Top-Left Classic Black Notification Box (Help / Stats / Cheats) -->
+    <div id="top-left-notifications">
+      <div id="cheat-box" class="sa-black-box hidden">TRUCO ACTIVADO</div>
+      <div id="help-box" class="sa-black-box">
+        Bienvenido a <b>Grove Street, Los Santos</b>.<br>
+        Usa <b>WASD</b> para moverte, <b>F / Enter</b> para subir a vehículos, <b>Click Der + Izq</b> para disparar, o <b>TAB</b> para el menú de Trucos.
+      </div>
+      <div id="stat-popup" class="sa-stat-box hidden">
+        <div class="stat-label" id="stat-popup-label">RESPECT</div>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar-fill" id="stat-popup-fill" style="width: 45%;"></div>
+        </div>
+        <div class="stat-plus">+</div>
+      </div>
+      <div id="gang-war-hud" class="sa-black-box gang-war-alert hidden">
+        <div class="gw-title">GUERRA DE BANDAS</div>
+        <div class="gw-wave" id="gw-wave-text">OLEADA 1 / 3 — BALLAS RESTANTES: 5</div>
+      </div>
+    </div>
+
+    <!-- Top-Center Radio Station Display -->
+    <div id="radio-display" class="hidden">
+      <div class="radio-icon">📻</div>
+      <div class="radio-name" id="radio-station-name">RADIO LOS SANTOS</div>
+      <div class="radio-genre" id="radio-station-genre">West Coast Hip-Hop & G-Funk</div>
+    </div>
+
+    <!-- Top-Right Classic GTA SA HUD (Time, Weapon, Armor, Health, Money, Wanted Stars) -->
+    <div id="hud-top-right">
+      <div class="hud-row-top">
+        <!-- Weapon Box -->
+        <div class="weapon-box" id="weapon-box" title="Rueda del ratón o Q/E para cambiar de arma">
+          <div id="weapon-icon-svg" class="weapon-icon">👊</div>
+          <div id="weapon-name-mini" class="weapon-name-mini">PUÑO</div>
+          <div id="weapon-ammo" class="weapon-ammo"></div>
+        </div>
+
+        <!-- Clock & Bars Stack -->
+        <div class="clock-bars-col">
+          <div id="hud-clock" class="hud-clock">12:00</div>
+          <!-- Armor Bar (White/Silver) -->
+          <div id="armor-bar-container" class="sa-bar-outer armor-outer">
+            <div id="armor-bar-fill" class="sa-bar-fill armor-fill" style="width: 50%;"></div>
+          </div>
+          <!-- Breath Bar (Light Blue, only in water) -->
+          <div id="breath-bar-container" class="sa-bar-outer breath-outer hidden">
+            <div id="breath-bar-fill" class="sa-bar-fill breath-fill" style="width: 100%;"></div>
+          </div>
+          <!-- Health Bar (Red) -->
+          <div id="health-bar-container" class="sa-bar-outer health-outer">
+            <div id="health-bar-fill" class="sa-bar-fill health-fill" style="width: 100%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Money Counter ($00000350) -->
+      <div id="hud-money" class="hud-money">$00000350</div>
+
+      <!-- 6 Wanted Stars -->
+      <div id="hud-wanted" class="hud-wanted">
+        <span class="star" data-star="1">★</span>
+        <span class="star" data-star="2">★</span>
+        <span class="star" data-star="3">★</span>
+        <span class="star" data-star="4">★</span>
+        <span class="star" data-star="5">★</span>
+        <span class="star" data-star="6">★</span>
+      </div>
+    </div>
+
+    <!-- Center Crosshair & GTA SA Target Health Triangle -->
+    <div id="crosshair" class="hidden">
+      <div class="ch-dot"></div>
+      <div class="ch-ring"></div>
+    </div>
+    <div id="target-indicator" class="hidden">
+      <div class="tri-down" id="tri-1"></div>
+      <div class="tri-down" id="tri-2"></div>
+      <div class="tri-down" id="tri-3"></div>
+    </div>
+
+    <!-- Mission Objective Banner / Timer Bar -->
+    <div id="mission-hud" class="hidden">
+      <div id="mission-hud-title" class="mission-hud-title">MISIÓN ACTIVA</div>
+      <div id="mission-hud-extra" class="mission-hud-extra"></div>
+    </div>
+
+    <!-- Bottom-Left Circular Radar / Minimap -->
+    <div id="radar-wrapper">
+      <div id="radar-ring">
+        <canvas id="radar-canvas" width="210" height="210"></canvas>
+        <div id="radar-north-badge">N</div>
+        <div id="radar-player-arrow"></div>
+      </div>
+      <div id="hud-quick-controls">
+        <span><b>[TAB]</b> Trucos/Mapa</span>
+        <span><b>[F]</b> Vehículo</span>
+        <span><b>[Q/E]</b> Arma</span>
+        <span><b>[R]</b> Radio</span>
+        <span><b>[G]</b> Reclutar Homie</span>
+      </div>
+    </div>
+
+    <!-- Bottom-Center Dialogue / Mission Subtitles -->
+    <div id="subtitle-container" class="hidden">
+      <p id="subtitle-text"></p>
+    </div>
+
+    <!-- Bottom-Right Vehicle Name & District Name Popups -->
+    <div id="bottom-right-popups">
+      <div id="vehicle-name-popup" class="vehicle-popup hidden">Greenwood</div>
+      <div id="zone-name-popup" class="zone-popup hidden">Ganton</div>
+      <div id="vehicle-speedo" class="speedo-box hidden">
+        <span id="speedo-val">0</span> <small>KM/H</small>
+        <div id="vehicle-hp-mini"><div id="vehicle-hp-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Interactive Shop Modal (Ammu-Nation / Well Stacked Pizza / Pay 'n' Spray / Clothes) -->
+    <div id="shop-modal" class="shop-modal hidden">
+      <div class="shop-header" id="shop-title">AMMU-NATION</div>
+      <div class="shop-subtitle" id="shop-subtitle">Selecciona un artículo para comprar</div>
+      <div class="shop-items" id="shop-items"></div>
+      <button id="btn-close-shop" class="sa-menu-btn small-btn">SALIR DE LA TIENDA [ESC]</button>
+    </div>
+
+    <!-- Big Center Overlay: WASTED / BUSTED / MISSION PASSED -->
+    <div id="center-banner" class="center-banner hidden">
+      <div id="banner-main-text" class="banner-main">MISSION PASSED!</div>
+      <div id="banner-sub-text" class="banner-sub">+$2500<br>RESPECT +</div>
+    </div>
+
+    <!-- Pause / Cheats / Missions & Stats Modal [TAB] -->
+    <div id="cheats-modal" class="cheats-modal hidden">
+      <div class="cheats-modal-inner">
+        <div class="cheats-header">
+          <div>
+            <h2>GRAND THEFT AUTO: SAN ANDREAS — PANEL CJ</h2>
+            <p>Puedes escribir cualquier código directamente en tu teclado mientras juegas o hacer clic abajo para activarlo al instante.</p>
+          </div>
+          <button id="btn-close-cheats" class="close-x">✕ CERRAR [TAB]</button>
+        </div>
+
+        <div class="modal-columns">
+          <!-- Column 1: Classic Cheats Clickable -->
+          <div class="modal-col">
+            <h3>🔥 TRUCOS CLÁSICOS (HAZ CLIC O ESCRÍBELOS)</h3>
+            <div class="cheat-grid">
+              <button class="cheat-btn" data-cheat="HESOYAM"><b>HESOYAM</b><span>Salud, Chaleco, $250,000 y Reparar Auto</span></button>
+              <button class="cheat-btn" data-cheat="ROCKETMAN"><b>ROCKETMAN</b><span>Equipar Jetpack Propulsor</span></button>
+              <button class="cheat-btn" data-cheat="AIWPRTON"><b>AIWPRTON</b><span>Aparecer Tanque Militar Rhino</span></button>
+              <button class="cheat-btn" data-cheat="UZUMYMW"><b>UZUMYMW</b><span>Pack de Armas 3 (AK47, RPG, Escopeta, SMG)</span></button>
+              <button class="cheat-btn" data-cheat="LXGIWYL"><b>LXGIWYL</b><span>Pack de Armas 1 (Bate, 9mm, Tec-9, Spray)</span></button>
+              <button class="cheat-btn" data-cheat="BAGUVIX"><b>BAGUVIX</b><span>Salud Infinita (Modo Semi-Dios)</span></button>
+              <button class="cheat-btn" data-cheat="FULLCLIP"><b>FULLCLIP</b><span>Munición Infinita sin Recargar</span></button>
+              <button class="cheat-btn" data-cheat="AEZAKMI"><b>AEZAKMI</b><span>Nunca Buscado por la Policía</span></button>
+              <button class="cheat-btn" data-cheat="ASNAEB"><b>ASNAEB</b><span>Limpiar Estrellas de Búsqueda (0★)</span></button>
+              <button class="cheat-btn" data-cheat="BRINGITON"><b>BRINGITON</b><span>6 Estrellas de Búsqueda (Ejército)</span></button>
+              <button class="cheat-btn" data-cheat="PDNEJOH"><b>PDNEJOH</b><span>Aparecer Deportivo Infernus</span></button>
+              <button class="cheat-btn" data-cheat="OHDUDE"><b>OHDUDE</b><span>Aparecer Helicóptero Militar Hunter</span></button>
+              <button class="cheat-btn" data-cheat="KANGAROO"><b>KANGAROO</b><span>Súper Salto Canguro (x10 altura)</span></button>
+              <button class="cheat-btn" data-cheat="RIPAZHA"><b>RIPAZHA</b><span>Autos Voladores (Chitty Chitty Bang Bang)</span></button>
+              <button class="cheat-btn" data-cheat="CPKTNWT"><b>CPKTNWT</b><span>Explotar Todos los Vehículos Cercanos</span></button>
+            </div>
+          </div>
+
+          <!-- Column 2: CJ Stats, Fast Travel, Outfit & Controls -->
+          <div class="modal-col">
+            <h3>📊 ESTADÍSTICAS DE CARL "CJ" JOHNSON</h3>
+            <div class="cj-stats-panel">
+              <div class="cj-stat-row"><span>Respeto (Respect)</span><div class="mini-bar"><div id="st-respect" style="width:35%"></div></div></div>
+              <div class="cj-stat-row"><span>Resistencia (Stamina)</span><div class="mini-bar"><div id="st-stamina" style="width:60%"></div></div></div>
+              <div class="cj-stat-row"><span>Musculatura (Muscle)</span><div class="mini-bar"><div id="st-muscle" style="width:55%"></div></div></div>
+              <div class="cj-stat-row"><span>Territorios Grove St.</span><span id="st-turfs" class="stat-val-txt">1 / 4</span></div>
+              <div class="cj-stat-row"><span>Graffitis Pintados</span><span id="st-tags" class="stat-val-txt">0 / 6</span></div>
+              <div class="cj-stat-row"><span>Misiones Completadas</span><span id="st-missions" class="stat-val-txt">0 / 5</span></div>
+            </div>
+
+            <h3>👕 ROPA DE CJ (ARMARIO BINCO)</h3>
+            <div class="outfit-buttons">
+              <button class="sa-mini-btn" data-outfit="classic">Musculosa Blanca Clásica</button>
+              <button class="sa-mini-btn" data-outfit="grove">Camisa Verde Grove St + Bandana</button>
+              <button class="sa-mini-btn" data-outfit="black">Chaqueta Negra + Cadena de Oro</button>
+            </div>
+
+            <h3>🗺️ VIAJE RÁPIDO EN LOS SANTOS</h3>
+            <div class="teleport-buttons">
+              <button class="sa-mini-btn" data-tp="grove">🏠 Grove Street (Casa de CJ)</button>
+              <button class="sa-mini-btn" data-tp="idlewood">🍗 Idlewood (Pay 'n' Spray / Pizza)</button>
+              <button class="sa-mini-btn" data-tp="glenpark">🟣 Glen Park (Territorio Ballas)</button>
+              <button class="sa-mini-btn" data-tp="downtown">🏙️ Downtown (Torre Los Santos / Helipuerto)</button>
+              <button class="sa-mini-btn" data-tp="beach">🌴 Santa Maria Beach (Muelle y Rueda)</button>
+            </div>
+
+            <h3>🎮 CONTROLES</h3>
+            <ul class="controls-list">
+              <li><b>W, A, S, D:</b> Caminar / Conducir / Volar</li>
+              <li><b>SHIFT:</b> Correr rápido / Nitro / Subir con Jetpack</li>
+              <li><b>ESPACIO:</b> Saltar / Freno de mano (Drift) / Subir Helicóptero</li>
+              <li><b>RATÓN:</b> Mirar alrededor | <b>Click Izq:</b> Golpear / Disparar</li>
+              <li><b>Click Derecho:</b> Apuntar con fijación de objetivo</li>
+              <li><b>F o ENTER:</b> Entrar / Salir de cualquier vehículo</li>
+              <li><b>Q / E o Rueda:</b> Cambiar de Arma</li>
+              <li><b>R:</b> Cambiar emisora de Radio en vehículo</li>
+              <li><b>H:</b> Suspensión Hidráulica (Lowriders) / Claxon</li>
+              <li><b>G:</b> Reclutar miembro de Grove Street para tu banda</li>
+              <li><b>J:</b> Equipar / Quitar Jetpack al instante</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Game Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/models.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/entities.js"></script>
+  <script src="js/missions.js"></script>
+  <script src="js/cheats.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

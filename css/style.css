@@ -1,0 +1,1098 @@
+/* ==========================================================================
+   GRAND THEFT AUTO: SAN ANDREAS — AUTHENTIC UI & HUD STYLESHEET
+   ========================================================================== */
+
+:root {
+  --sa-green: #388e3c;
+  --sa-money-green: #2e7d32;
+  --sa-money-bright: #4caf50;
+  --sa-red: #b71c1c;
+  --sa-health-red: #d32f2f;
+  --sa-gold: #e5a93c;
+  --sa-amber: #ffca28;
+  --sa-blue-menu: #7da7d9;
+  --sa-breath-blue: #64b5f6;
+  --sa-black: #080808;
+  --font-pricedown: 'Anton', 'Bebas Neue', Impact, sans-serif;
+  --font-gothic: 'Pirata One', Georgia, serif;
+  --font-menu: 'Teko', 'Rajdhani', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+  font-family: var(--font-menu);
+  color: #fff;
+}
+
+#game-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+/* Iconic PS2 Los Santos Warm Orange Haze Filter */
+#ps2-filter {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+#ps2-filter.ps2-warmth {
+  background: radial-gradient(circle at 50% 35%, rgba(255, 165, 60, 0.12), rgba(180, 85, 20, 0.18)),
+              linear-gradient(180deg, rgba(255, 140, 0, 0.10) 0%, rgba(20, 10, 0, 0.12) 100%);
+  mix-blend-mode: screen;
+}
+
+#damage-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: radial-gradient(circle, transparent 45%, rgba(210, 0, 0, 0.65) 100%);
+  opacity: 0;
+  transition: opacity 0.18s ease-out;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ================= TITLE SCREEN ================= */
+#title-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #050505;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.title-bg-grid {
+  position: absolute;
+  inset: 18px;
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr 1fr;
+  gap: 14px;
+  opacity: 0.48;
+  filter: contrast(1.15) saturate(1.2);
+}
+
+.art-panel {
+  border: 6px solid #fff;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0,0,0,0.9);
+}
+
+.panel-art {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.04);
+  animation: slowPan 14s infinite alternate ease-in-out;
+}
+
+.grove-art {
+  background:
+    radial-gradient(circle at 70% 25%, rgba(255, 175, 50, 0.85) 0%, transparent 45%),
+    linear-gradient(160deg, #1b4d20 0%, #0d2610 55%, #050d06 100%);
+}
+
+.lowrider-art {
+  background:
+    radial-gradient(circle at 40% 20%, rgba(255, 120, 40, 0.9) 0%, rgba(160, 40, 90, 0.6) 50%, #14081c 100%);
+}
+
+.cj-art {
+  background:
+    radial-gradient(circle at 50% 30%, rgba(255, 200, 90, 0.75) 0%, #3a230a 55%, #0a0a0a 100%);
+}
+
+@keyframes slowPan {
+  0% { transform: scale(1.02) translate(0, 0); }
+  100% { transform: scale(1.1) translate(-10px, -6px); }
+}
+
+.panel-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  font-family: var(--font-pricedown);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 3px 3px 0 #000, -2px -2px 0 #000;
+}
+
+.title-center-box {
+  position: relative;
+  z-index: 5;
+  background: rgba(8, 8, 8, 0.88);
+  border: 4px solid #fff;
+  padding: 34px 52px;
+  max-width: 680px;
+  width: 92%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.95);
+}
+
+.gta-logo-box {
+  margin-bottom: 28px;
+}
+
+.gta-logo-top {
+  font-family: var(--font-pricedown);
+  font-size: 4.2rem;
+  line-height: 0.92;
+  color: #fff;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  text-shadow:
+    -4px -4px 0 #000,
+     4px -4px 0 #000,
+    -4px  4px 0 #000,
+     4px  4px 0 #000,
+     0px  7px 0 #000;
+}
+
+.gta-logo-sa {
+  font-family: var(--font-gothic);
+  font-size: 4.5rem;
+  line-height: 1.0;
+  color: #fff;
+  margin-top: -4px;
+  text-shadow:
+    -4px -4px 0 #000,
+     4px -4px 0 #000,
+    -4px  4px 0 #000,
+     4px  4px 0 #000,
+     0px  6px 14px rgba(255, 165, 0, 0.65);
+}
+
+.gta-logo-sub {
+  margin-top: 8px;
+  font-family: var(--font-menu);
+  font-size: 1.25rem;
+  letter-spacing: 4px;
+  color: var(--sa-amber);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.title-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.sa-menu-btn {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(20, 20, 20, 0.9);
+  border: 2px solid #444;
+  color: #9bb8d3;
+  font-family: var(--font-menu);
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 8px 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 #000;
+  transition: all 0.12s ease;
+}
+
+.sa-menu-btn:hover,
+.sa-menu-btn.active {
+  color: #fff;
+  border-color: var(--sa-amber);
+  background: rgba(56, 142, 60, 0.35);
+  transform: scale(1.03);
+  box-shadow: 0 0 18px rgba(255, 202, 40, 0.35);
+}
+
+.title-footer-hint {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.title-footer-hint b {
+  color: var(--sa-amber);
+}
+
+/* ================= IN-GAME HUD ================= */
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Top-Left Black Box (Classic GTA SA Help & Cheat Box) */
+#top-left-notifications {
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sa-black-box {
+  background: rgba(0, 0, 0, 0.78);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  padding: 10px 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #e8e8e8;
+  text-shadow: 1px 1px 0 #000;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.65);
+}
+
+.sa-black-box b {
+  color: var(--sa-amber);
+}
+
+#cheat-box {
+  font-family: var(--font-menu);
+  font-size: 1.45rem;
+  letter-spacing: 1.5px;
+  color: #fff;
+  border-left: 5px solid var(--sa-amber);
+  text-transform: uppercase;
+}
+
+.sa-stat-box {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #000;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 280px;
+}
+
+.stat-label {
+  font-family: var(--font-menu);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  min-width: 90px;
+}
+
+.stat-bar-wrap {
+  flex: 1;
+  height: 12px;
+  background: #333;
+  border: 2px solid #000;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: #fff;
+  transition: width 0.3s ease;
+}
+
+.stat-plus {
+  font-family: var(--font-pricedown);
+  font-size: 1.5rem;
+  color: var(--sa-money-bright);
+}
+
+.gang-war-alert {
+  border-left: 5px solid #d500f9;
+  background: rgba(25, 0, 35, 0.85);
+}
+
+.gw-title {
+  font-family: var(--font-pricedown);
+  font-size: 1.4rem;
+  color: #ea80fc;
+  letter-spacing: 1px;
+}
+
+.gw-wave {
+  font-size: 1rem;
+  color: #fff;
+}
+
+/* Top-Center Radio Display */
+#radio-display {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.72);
+  padding: 8px 24px;
+  border: 2px solid rgba(255, 202, 40, 0.5);
+  border-radius: 4px;
+}
+
+.radio-icon {
+  font-size: 1.5rem;
+}
+
+.radio-name {
+  font-family: var(--font-menu);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--sa-amber);
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.radio-genre {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+/* ================= TOP-RIGHT CLASSIC GTA SA HUD ================= */
+#hud-top-right {
+  position: absolute;
+  top: 20px;
+  right: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.hud-row-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* Weapon Frame */
+.weapon-box {
+  width: 86px;
+  height: 86px;
+  background: rgba(15, 15, 15, 0.72);
+  border: 4px solid #111;
+  outline: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+  box-shadow: 3px 3px 0 #000;
+  position: relative;
+}
+
+.weapon-icon {
+  font-size: 2.35rem;
+  line-height: 1;
+  margin-top: 2px;
+  filter: drop-shadow(2px 2px 0 #000);
+}
+
+.weapon-name-mini {
+  font-family: var(--font-menu);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: #ddd;
+  line-height: 1;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.weapon-ammo {
+  font-family: var(--font-pricedown);
+  font-size: 0.95rem;
+  color: #b0bec5;
+  letter-spacing: 1px;
+  line-height: 1;
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
+
+/* Clock & Bars Column */
+.clock-bars-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  min-width: 145px;
+}
+
+.hud-clock {
+  font-family: var(--font-pricedown);
+  font-size: 2.55rem;
+  line-height: 0.9;
+  color: #d7ccc8;
+  letter-spacing: 2px;
+  text-shadow:
+    -3px -3px 0 #000,
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000,
+     0px  4px 0 #000;
+}
+
+.sa-bar-outer {
+  width: 142px;
+  height: 14px;
+  background: #222;
+  border: 3px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  overflow: hidden;
+}
+
+.sa-bar-fill {
+  height: 100%;
+  transition: width 0.15s ease-out;
+}
+
+.armor-outer {
+  background: #424242;
+}
+.armor-fill {
+  background: #e0e0e0;
+}
+
+.breath-outer {
+  background: #1a3a54;
+}
+.breath-fill {
+  background: var(--sa-breath-blue);
+}
+
+.health-outer {
+  background: #4a0d0d;
+}
+.health-fill {
+  background: var(--sa-health-red);
+}
+
+/* Classic $00000350 Money Display */
+.hud-money {
+  font-family: var(--font-pricedown);
+  font-size: 2.75rem;
+  line-height: 0.95;
+  color: #3b8c3e;
+  letter-spacing: 2px;
+  margin-top: 2px;
+  text-shadow:
+    -3px -3px 0 #000,
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000,
+     0px  4px 0 #000;
+}
+
+/* 6 Wanted Stars */
+.hud-wanted {
+  display: flex;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.hud-wanted .star {
+  font-size: 2.1rem;
+  line-height: 1;
+  color: rgba(20, 20, 20, 0.55);
+  -webkit-text-stroke: 2px #000;
+  text-shadow: 2px 2px 0 #000;
+  transition: transform 0.15s, color 0.15s;
+}
+
+.hud-wanted .star.active {
+  color: var(--sa-gold);
+  text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000,
+     0 0 10px rgba(255, 202, 40, 0.75);
+  animation: starPulse 0.9s infinite alternate;
+}
+
+@keyframes starPulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  100% { transform: scale(1.08); filter: brightness(1.25); }
+}
+
+/* ================= CROSSHAIR & TARGET TRIANGLES ================= */
+#crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ch-dot {
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 4px #000;
+}
+
+.ch-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  box-shadow: 0 0 4px #000, inset 0 0 4px #000;
+}
+
+#target-indicator {
+  position: absolute;
+  display: flex;
+  gap: 4px;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+
+.tri-down {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 12px solid #00e676;
+  filter: drop-shadow(0 2px 1px #000);
+}
+
+/* ================= MISSION OBJECTIVE HUD ================= */
+#mission-hud {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.78);
+  border: 2px solid var(--sa-amber);
+  padding: 6px 20px;
+  text-align: center;
+}
+
+.mission-hud-title {
+  font-family: var(--font-pricedown);
+  font-size: 1.35rem;
+  color: var(--sa-amber);
+  letter-spacing: 1.5px;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.mission-hud-extra {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ================= BOTTOM-LEFT CIRCULAR RADAR ================= */
+#radar-wrapper {
+  position: absolute;
+  bottom: 22px;
+  left: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+#radar-ring {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  border: 8px solid #141414;
+  outline: 3px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.9);
+  position: relative;
+  overflow: hidden;
+  background: #2b3a42;
+}
+
+#radar-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#radar-north-badge {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  background: #000;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  font-family: var(--font-pricedown);
+  font-size: 0.9rem;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+
+#radar-player-arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 15px solid #fff;
+  filter: drop-shadow(0 0 2px #000) drop-shadow(0 0 2px #000);
+  z-index: 3;
+}
+
+#hud-quick-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.72);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.88rem;
+  color: #ccc;
+}
+
+#hud-quick-controls b {
+  color: var(--sa-amber);
+}
+
+/* ================= SUBTITLES (BOTTOM CENTER) ================= */
+#subtitle-container {
+  position: absolute;
+  bottom: 42px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 720px;
+  width: 85%;
+  text-align: center;
+  pointer-events: none;
+}
+
+#subtitle-text {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.78);
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000;
+}
+
+/* ================= BOTTOM-RIGHT ZONE & VEHICLE POPUPS ================= */
+#bottom-right-popups {
+  position: absolute;
+  bottom: 24px;
+  right: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.vehicle-popup {
+  font-family: var(--font-gothic);
+  font-size: 3.1rem;
+  color: #a5d6a7;
+  line-height: 1;
+  text-shadow:
+    -3px -3px 0 #000,
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000,
+     0px  4px 0 #000;
+  animation: fadeInOut 3.8s forwards;
+}
+
+.zone-popup {
+  font-family: var(--font-gothic);
+  font-size: 3.4rem;
+  color: #90caf9;
+  line-height: 1;
+  text-shadow:
+    -3px -3px 0 #000,
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000,
+     0px  5px 0 #000;
+  animation: fadeInOut 4.2s forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  12% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+.speedo-box {
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #222;
+  padding: 4px 12px;
+  font-family: var(--font-pricedown);
+  font-size: 1.7rem;
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
+  text-align: right;
+}
+
+.speedo-box small {
+  font-size: 0.9rem;
+  color: var(--sa-amber);
+}
+
+#vehicle-hp-mini {
+  width: 90px;
+  height: 6px;
+  background: #333;
+  border: 1px solid #000;
+  margin-top: 2px;
+}
+
+#vehicle-hp-fill {
+  width: 100%;
+  height: 100%;
+  background: #4caf50;
+}
+
+/* ================= BIG CENTER BANNER: MISSION PASSED / WASTED / BUSTED ================= */
+.center-banner {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
+  z-index: 30;
+  animation: bannerPop 0.55s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes bannerPop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.banner-main {
+  font-family: var(--font-pricedown);
+  font-size: 5.2rem;
+  letter-spacing: 3px;
+  color: var(--sa-gold);
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow:
+    -5px -5px 0 #000,
+     5px -5px 0 #000,
+    -5px  5px 0 #000,
+     5px  5px 0 #000,
+     0px  8px 18px rgba(0, 0, 0, 0.95);
+}
+
+.banner-sub {
+  font-family: var(--font-pricedown);
+  font-size: 2.7rem;
+  color: #fff;
+  margin-top: 8px;
+  line-height: 1.15;
+  text-shadow:
+    -3px -3px 0 #000,
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000;
+}
+
+/* ================= SHOP MODAL (AMMU-NATION / PIZZA) ================= */
+.shop-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  max-width: 92vw;
+  background: rgba(8, 8, 8, 0.94);
+  border: 4px solid #fff;
+  padding: 22px 26px;
+  pointer-events: auto;
+  z-index: 40;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.95);
+}
+
+.shop-header {
+  font-family: var(--font-pricedown);
+  font-size: 2.6rem;
+  color: var(--sa-amber);
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 #000;
+}
+
+.shop-subtitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.05rem;
+  color: #bbb;
+  margin-bottom: 14px;
+}
+
+.shop-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.shop-item-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #181818;
+  border: 2px solid #333;
+  color: #fff;
+  padding: 10px 14px;
+  font-family: var(--font-menu);
+  font-size: 1.35rem;
+  cursor: pointer;
+  transition: 0.12s;
+}
+
+.shop-item-btn:hover {
+  border-color: var(--sa-amber);
+  background: rgba(56, 142, 60, 0.35);
+}
+
+.shop-item-price {
+  color: var(--sa-money-bright);
+  font-family: var(--font-pricedown);
+}
+
+.small-btn {
+  font-size: 1.25rem;
+  padding: 6px 14px;
+}
+
+/* ================= CHEATS & PAUSE MODAL [TAB] ================= */
+.cheats-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.84);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+  z-index: 45;
+  padding: 20px;
+}
+
+.cheats-modal-inner {
+  width: 1040px;
+  max-width: 96vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #0d0d0d;
+  border: 4px solid #fff;
+  padding: 22px 28px;
+  box-shadow: 0 25px 70px #000;
+}
+
+.cheats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #333;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.cheats-header h2 {
+  font-family: var(--font-pricedown);
+  font-size: 2.2rem;
+  letter-spacing: 1.5px;
+  color: var(--sa-amber);
+}
+
+.cheats-header p {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  color: #bbb;
+}
+
+.close-x {
+  background: var(--sa-red);
+  color: #fff;
+  border: 2px solid #fff;
+  font-family: var(--font-menu);
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.modal-columns {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 860px) {
+  .modal-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modal-col h3 {
+  font-family: var(--font-menu);
+  font-size: 1.45rem;
+  color: #90caf9;
+  letter-spacing: 1px;
+  margin: 10px 0 8px;
+  border-left: 4px solid var(--sa-amber);
+  padding-left: 8px;
+}
+
+.cheat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.cheat-btn {
+  background: #161616;
+  border: 2px solid #333;
+  padding: 7px 10px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.12s;
+}
+
+.cheat-btn:hover {
+  border-color: var(--sa-amber);
+  background: #1f2e1f;
+  transform: translateY(-1px);
+}
+
+.cheat-btn b {
+  font-family: var(--font-pricedown);
+  font-size: 1.15rem;
+  color: var(--sa-amber);
+  letter-spacing: 1px;
+}
+
+.cheat-btn span {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.88rem;
+  color: #ddd;
+}
+
+.cj-stats-panel {
+  background: #141414;
+  border: 1px solid #333;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cj-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.mini-bar {
+  width: 130px;
+  height: 10px;
+  background: #333;
+  border: 1px solid #000;
+}
+
+.mini-bar > div {
+  height: 100%;
+  background: var(--sa-money-bright);
+}
+
+.stat-val-txt {
+  color: var(--sa-amber);
+  font-weight: 700;
+}
+
+.outfit-buttons,
+.teleport-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sa-mini-btn {
+  background: #1b1b1b;
+  border: 1px solid #444;
+  color: #e0e0e0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: 0.12s;
+}
+
+.sa-mini-btn:hover {
+  border-color: var(--sa-amber);
+  color: #fff;
+  background: #273827;
+}
+
+.controls-list {
+  list-style: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.45;
+  color: #ccc;
+  background: #141414;
+  padding: 10px 14px;
+  border: 1px solid #2b2b2b;
+}
+
+.controls-list b {
+  color: var(--sa-amber);
+}
