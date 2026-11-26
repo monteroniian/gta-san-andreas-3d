@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: ian-gta-san-andreas-3d
+    runtime: static
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: false
